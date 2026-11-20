@@ -11,7 +11,7 @@ permissions:
 jobs:
   release:
     if: startsWith(github.ref_name, 'release-')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Confirm branch
@@ -19,14 +19,14 @@ jobs:
           echo "Release workflow triggered on branch: ${{ github.ref_name }}"
 
       - name: Checkout release branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.ref_name }}
 
-      - name: Set up Node.js 20.x
-        uses: actions/setup-node@v3
+      - name: Set up Node.js 24.x
+        uses: actions/setup-node@v7
         with:
-          node-version: 20.x
+          node-version: 24
 
       - name: Install NPM
         run: |
@@ -104,7 +104,7 @@ jobs:
           git push origin "$BUILT_BRANCH" --force
 
       - name: Deploy to Staging
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
